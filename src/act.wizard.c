@@ -548,7 +548,7 @@ Usage: setflag <victim> <flag>\n\r", ch);
          (strcmp(GET_NAME(ch), "Lem") && strcmp(GET_NAME(ch), "Ranger") &&
           strcmp(GET_NAME(ch), "Sumo") && strcmp(GET_NAME(ch), "Liner") &&
           strcmp(GET_NAME(ch), "Sane") && strcmp(GET_NAME(ch), "Shun") &&
-          strcmp(GET_NAME(ch), "Night") && strcmp(GET_NAME(ch), "Arodtanjoe"))) { 
+          strcmp(GET_NAME(ch), "Night"))) {
         send_to_char("You cannot set an IMP active.\n\r", ch);
         return;
       }
@@ -1138,7 +1138,7 @@ void do_password(struct char_data *ch, char *argument, int cmdnum)
          if(!strcmp(GET_NAME(ch),"Nosferatu")) {
            argument = one_argument(argument, name);
            string_to_lower(name);
-           if (!strcmp(name, "ranger") || !strcmp(name, "sumo") || !strcmp(name, "lem") || !strcmp(name, "liner") || !strcmp(name, "sane") || !strcmp(name, "shun") || !strcmp(name, "night") || !strcmp(name, "arodtanjoe")) {
+           if (!strcmp(name, "ranger") || !strcmp(name, "sumo") || !strcmp(name, "lem") || !strcmp(name, "liner") || !strcmp(name, "sane") || !strcmp(name, "shun") || !strcmp(name, "night")) {
              send_to_char("You cannot change the password of the active IMPs.\n\r", ch);
              return;
            }
@@ -1162,8 +1162,7 @@ void do_password(struct char_data *ch, char *argument, int cmdnum)
            (strcmp(GET_NAME(ch), "Liner") && !strcmp(name, "liner")) ||
            (strcmp(GET_NAME(ch), "Sane") && !strcmp(name, "sane")) ||
            (strcmp(GET_NAME(ch), "Shun") && !strcmp(name, "shun")) ||
-           (strcmp(GET_NAME(ch), "Night") && !strcmp(name, "night")) ||
-		   (strcmp(GET_NAME(ch), "Arodtanjoe") && !strcmp(name, "arodtanjoe"))) {
+           (strcmp(GET_NAME(ch), "Night") && !strcmp(name, "night"))) {
            send_to_char("You cannot change the password of the active IMPs.\n\r", ch);
            return;
          }
@@ -1214,7 +1213,7 @@ void do_plock(struct char_data *ch, char *argument, int cmd)
   }
   string_to_lower(name);
 
-  if (!strcmp(name, "ranger") || !strcmp(name, "sumo") || !strcmp(name, "lem") || !strcmp(name, "liner") || !strcmp(name, "sane") || !strcmp(name, "shun") || !strcmp(name, "night") || !strcmp(name, "arodtanjoe")) {
+  if (!strcmp(name, "ranger") || !strcmp(name, "sumo") || !strcmp(name, "lem") || !strcmp(name, "liner") || !strcmp(name, "sane") || !strcmp(name, "shun") || !strcmp(name, "night")) {
     send_to_char("You cannot lock the active IMPs.\n\r", ch);
     return;
   }
@@ -1749,26 +1748,6 @@ void do_system(struct char_data *ch, char *argument, int cmd) {
   send_to_char("FreeMort -- ",ch);
   if (FREEMORT) send_to_char("Yes\n\r",ch);
   else send_to_char("No\n\r",ch);
-	
-  send_to_char("BonusAQP -- ",ch);
-  if (BONUSAQP) send_to_char("Yes\n\r",ch);
-  else send_to_char("No\n\r",ch);
-  
-  send_to_char("Double SCP -- ",ch);
-  if (DOUBLESCP) send_to_char("Yes\n\r",ch);
-  else send_to_char("No\n\r",ch);
-  
-  send_to_char("Double SCP Value-- ",ch);
-  if (DOUBLESCPV) send_to_char("Yes\n\r",ch);
-  else send_to_char("No\n\r",ch);
-
-  send_to_char("Double Gold -- ",ch);
-  if (DOUBLEGOLD) send_to_char("Yes\n\r",ch);
-  else send_to_char("No\n\r",ch);
-  
-  send_to_char("Bonus Meta -- ",ch);
-  if (BONUSMETA) send_to_char("Yes\n\r",ch);
-  else send_to_char("No\n\r",ch);
 
   send_to_char("GameHalt -- ", ch);
   if (GAMEHALT == 1) send_to_char("Yes\n\r", ch);
@@ -1874,18 +1853,13 @@ void do_gamemode(struct char_data *ch, char *argument, int cmd) {
     send_to_char("                check <reason>  WIZ+ (screens new chars)\n\r",ch);
     if(GET_LEVEL(ch)>LEVEL_ETE) {
       send_to_char("                bam             SUP+ (BAM rules)\n\r",ch);
-	  send_to_char("                chaos           SUP+ (chaos rules)\n\r",ch);
-	  send_to_char("                doublexp        SUP+ (normal exp gain is doubled)\n\r",ch);
-	  send_to_char("                freemort        SUP+ (free remorts)\n\r",ch);
-	  send_to_char("                bonusaqp        SUP+ (Add bonus chance for double AQP)\n\r",ch);
-	  send_to_char("                doublescp       SUP+ (Doubles the number of SCP tokens in game)\n\r",ch);
-	  send_to_char("                doublescpv      SUP+ (Doubles the value of SCP Tokens)\n\r",ch);
-	  send_to_char("                doublegold      SUP+ (Doubles the Gold Drops from Enemies)\n\r",ch);
-	  send_to_char("                bonusmeta       SUP+ (Add bonus +1 to all Stat Metas)\n\r",ch);
     }
-    if(GET_LEVEL(ch)>LEVEL_SUP) {      
+    if(GET_LEVEL(ch)>LEVEL_SUP) {
+      send_to_char("                chaos           IMP  (chaos rules)\n\r",ch);
       send_to_char("                pulse           IMP  (measure of machine lag)\n\r",ch);
       send_to_char("                halt            IMP  (time stops)\n\r",ch);
+      send_to_char("                doublexp        IMP  (normal exp gain is doubled)\n\r",ch);
+      send_to_char("                freemort        IMP  (free remorts)\n\r",ch);
     }
     return;
   }
@@ -1967,7 +1941,7 @@ void do_gamemode(struct char_data *ch, char *argument, int cmd) {
     return;
   }
 
-  if(is_abbrev(arg,"chaos") && GET_LEVEL(ch)>LEVEL_ETE) {
+  if(is_abbrev(arg,"chaos") && GET_LEVEL(ch)>LEVEL_SUP) {
     if ( CHAOSMODE == 0 ) {
       sprintf(buf,"`i***** ENTERING CHAOS MODE *****\n\r\n\r***** ENTERING CHAOS MODE *****\n\r\n\r***** ENTERING CHAOS MODE *****`q\n\r\n\r");
       CHAOSMODE = 1;
@@ -2012,7 +1986,7 @@ void do_gamemode(struct char_data *ch, char *argument, int cmd) {
     return;
   }
 
-  if(is_abbrev(arg,"doublexp") && GET_LEVEL(ch)>LEVEL_ETE) {
+  if(is_abbrev(arg,"doublexp") && GET_LEVEL(ch)>LEVEL_SUP) {
     if ( DOUBLEXP == 0 ) {
       sprintf(buf,"`i***** DOUBLE EXPERIENCE MODE ENABLED!! *****\n\r\n\r***** DOUBLE EXPERIENCE MODE ENABLED!! *****\n\r\n\r***** DOUBLE EXPERIENCE MODE ENABLED!! *****`q\n\r\n\r");
       DOUBLEXP = 1;
@@ -2028,7 +2002,7 @@ void do_gamemode(struct char_data *ch, char *argument, int cmd) {
     return;
   }
 
-  if(is_abbrev(arg,"freemort") && GET_LEVEL(ch)>LEVEL_ETE) {
+  if(is_abbrev(arg,"freemort") && GET_LEVEL(ch)>LEVEL_SUP) {
     if (FREEMORT == 0) {
       sprintf(buf,"`i***** FREEMORT MODE ENABLED!! *****`q\n\r");
       FREEMORT = 1;
@@ -2043,112 +2017,22 @@ void do_gamemode(struct char_data *ch, char *argument, int cmd) {
         act(buf,0,ch,0,e->character,TO_VICT);
     return;
   }
- 
-  if(is_abbrev(arg,"bonusaqp") && GET_LEVEL(ch)>LEVEL_ETE) {
-    if (BONUSAQP == 0) {
-      sprintf(buf,"`i***** BONUS AQP MODE ENABLED!! *****`q\n\r");
-      BONUSAQP = 1;
-    }
-    else {
-      sprintf(buf,"`i***** BONUS AQP MODE DISABLED *****`q\n\r");
-      BONUSAQP = 0;
-    }
-    send_to_char(buf,ch);
-    for (e=descriptor_list;e;e=e->next)
-      if (e->character !=ch && !e->connected)
-        act(buf,0,ch,0,e->character,TO_VICT);
-    return;
-  }
 
-  if(is_abbrev(arg,"doublescp") && GET_LEVEL(ch)>LEVEL_ETE) {
-    if (DOUBLESCP == 0) {
-      sprintf(buf,"`i***** DOUBLE SCP MODE ENABLED!! *****`q\n\r");
-      DOUBLESCP = 1;
-	  TOKENCOUNT=TOKENCOUNT*2;	  
-	  log_f("SUBLOG: Updating TOKENCOUNT to %d.", TOKENCOUNT);
-	  //Redistribute Tokens to match the new Token Count.   Dont rebuild the table.
-	  distribute_tokens(CHAOSMODE ? 0 : TOKENCOUNT, FALSE);
-    }
-    else {
-      sprintf(buf,"`i***** DOUBLE SCP MODE DISABLED *****`q\n\r");	  
-      DOUBLESCP = 0;
-	  TOKENCOUNT=TOKENCOUNT/2;
-	  log_f("SUBLOG: Updating TOKENCOUNT to %d.", TOKENCOUNT);
-    }
-    send_to_char(buf,ch);
-    for (e=descriptor_list;e;e=e->next)
-      if (e->character !=ch && !e->connected)
-        act(buf,0,ch,0,e->character,TO_VICT);
-    return;
-  }
 
-  if(is_abbrev(arg,"doublescpv") && GET_LEVEL(ch)>LEVEL_ETE) {
-    if (DOUBLESCPV == 0) {
-      sprintf(buf,"`i***** DOUBLE SCP VALUE MODE ENABLED!! *****`q\n\r");
-      DOUBLESCPV = 1;
-    }
-    else {
-      sprintf(buf,"`i***** DOUBLE SCP VALUE MODE DISABLED *****`q\n\r");
-      DOUBLESCPV = 0;
-    }
-    send_to_char(buf,ch);
-    for (e=descriptor_list;e;e=e->next)
-      if (e->character !=ch && !e->connected)
-        act(buf,0,ch,0,e->character,TO_VICT);
-    return;
-  }
-  
-  if(is_abbrev(arg,"doublegold") && GET_LEVEL(ch)>LEVEL_ETE) {
-    if (DOUBLEGOLD == 0) {
-      sprintf(buf,"`i***** DOUBLE GOLD MODE ENABLED!! *****`q\n\r");
-      DOUBLEGOLD = 1;
-    }
-    else {
-      sprintf(buf,"`i***** DOUBLE GOLD MODE DISABLED *****`q\n\r");
-      DOUBLEGOLD = 0;
-    }
-    send_to_char(buf,ch);
-    for (e=descriptor_list;e;e=e->next)
-      if (e->character !=ch && !e->connected)
-        act(buf,0,ch,0,e->character,TO_VICT);
-    return;
-  }
-  
-  if(is_abbrev(arg,"bonusmeta") && GET_LEVEL(ch)>LEVEL_ETE) {
-    if (BONUSMETA == 0) {
-      sprintf(buf,"`i***** BONUS META MODE ENABLED!! *****`q\n\r");
-      BONUSMETA = 1;
-    }
-    else {
-      sprintf(buf,"`i***** BONUS META MODE DISABLED *****`q\n\r");
-      BONUSMETA = 0;
-    }
-    send_to_char(buf,ch);
-    for (e=descriptor_list;e;e=e->next)
-      if (e->character !=ch && !e->connected)
-        act(buf,0,ch,0,e->character,TO_VICT);
-    return;
-  }
 
   /* invalid parameter */
   send_to_char("Usage: gamemode wizlock         WIZ+ (no new char creation)\n\r",ch);
   send_to_char("                lock            WIZ+ (no mortals allowed in)\n\r",ch);
   send_to_char("                check <reason>  WIZ+ (screens new chars)\n\r",ch);
   if(GET_LEVEL(ch)>LEVEL_ETE) {
-      send_to_char("                bam             SUP+ (BAM rules)\n\r",ch);
-	  send_to_char("                chaos           SUP+  (chaos rules)\n\r",ch);
-	  send_to_char("                doublexp        SUP+  (normal exp gain is doubled)\n\r",ch);
-	  send_to_char("                freemort        SUP+  (free remorts)\n\r",ch);
-	  send_to_char("                bonusaqp        SUP+  (Add bonus chance for double AQP)\n\r",ch);
-	  send_to_char("                doublescp       SUP+ (Doubles the number of SCP tokens in game)\n\r",ch);
-	  send_to_char("                doublescpv      SUP+ (Doubles the value of SCP Tokens)\n\r",ch);
-	  send_to_char("                doublegold      SUP+ (Doubles the Gold Drops from Enemies)\n\r",ch);
-	  send_to_char("                bonusmeta       SUP+ (Add bonus +1 to all Stat Metas)\n\r",ch);
-    }
-    if(GET_LEVEL(ch)>LEVEL_SUP) {      
-      send_to_char("                pulse           IMP  (measure of machine lag)\n\r",ch);
-      send_to_char("                halt            IMP  (time stops)\n\r",ch);
-    }
+    send_to_char("                bam             SUP+ (BAM rules)\n\r",ch);
+  }
+  if(GET_LEVEL(ch)>LEVEL_SUP) {
+    send_to_char("                chaos           IMP  (chaos rules)\n\r",ch);
+    send_to_char("                pulse           IMP  (measure of machine lag)\n\r",ch);
+    send_to_char("                halt            IMP  (time stops)\n\r",ch);
+    send_to_char("                doublexp        IMP  (normal exp gain is doubled)\n\r",ch);
+  }
   return;
 }
 
@@ -5146,8 +5030,7 @@ void do_demote(struct char_data *ch, char *argument, int cmd)
       !strcmp(GET_NAME(victim),"Liner") ||
       !strcmp(GET_NAME(victim),"Sane") ||
       !strcmp(GET_NAME(victim),"Shun") ||
-      !strcmp(GET_NAME(victim),"Night") ||
-	  !strcmp(GET_NAME(victim),"Arodtanjoe"))
+      !strcmp(GET_NAME(victim),"Night"))
   {
     send_to_char("You cannot demote the active IMPs.\n\r",ch);
     return;
