@@ -1635,14 +1635,24 @@ void imm_grace_remove_enchant(CHAR *ch) {
 int calc_death_exp_mult(CHAR *ch) {
   if (!ch) return 0;
 
-  const int DEATH_EXP_MULT = 2;
+  int mult = 2;
 
   // Prestige Perk 6
   if (GET_PRESTIGE_PERK(ch) >= 6) {
-    return DEATH_EXP_MULT + 1;
+    mult += 1;
   }
 
-  return DEATH_EXP_MULT;
+  // Prestige Perk 38
+  if (GET_PRESTIGE_PERK(ch) >= 38) {
+    mult += 1;
+  }
+
+  // Prestige Perk 81
+  if (GET_PRESTIGE_PERK(ch) >= 81) {
+    mult += 1;
+  }
+
+  return mult;
 }
 
 /* Maniplulate a player's death experience. Don't use this directly unless you know what you're doing. */
@@ -1925,6 +1935,11 @@ void die(CHAR *ch)
 
       // Prestige Perk 11
       if (GET_PRESTIGE_PERK(ch) >= 11) {
+        mult += 0.01;
+      }
+
+      // Prestige Perk 43
+      if (GET_PRESTIGE_PERK(ch) >= 43) {
         mult += 0.01;
       }
 
@@ -3878,7 +3893,7 @@ void do_whois(CHAR *ch, char *argument, int cmd) {
     class = (int)char_info_5.class;
     subclass = char_info_5.ver3.subclass;
     subclass_level = char_info_5.ver3.subclass_level;
-    prestige = char_info_5.ver3.prestige;
+    prestige = char_info_5.ver3.prestige | (((unsigned)char_info_5.ver3.extra_byte[0]) << 8);
     level = char_info_5.level;
     secs = time(0) - char_info_5.last_update;
     sprintf(host, "%s", char_info_5.new.host);

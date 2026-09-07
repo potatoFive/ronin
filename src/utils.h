@@ -442,8 +442,11 @@ do {                   \
 #define GET_OBJ_BITS(obj) (obj->obj_flags.bitvector)
 #define GET_OBJ_BITS2(obj) (obj->obj_flags.bitvector2)
 #define GET_LAST_DIR(mob) (mob->specials.last_direction)
-#define GET_PRESTIGE(ch) (ch->ver3.prestige)
+#define GET_PRESTIGE(ch) (ch->ver3.prestige | (((unsigned)ch->ver3.extra_byte[0]) << 8))
+#define SET_PRESTIGE(ch, val) do { int __prestige_val = (val); if (__prestige_val < 0) __prestige_val = 0; else if (__prestige_val > 65535) __prestige_val = 65535; ch->ver3.prestige = (__prestige_val & 0xFF); ch->ver3.extra_byte[0] = ((__prestige_val >> 8) & 0xFF); } while (0)
 #define GET_PRESTIGE_PERK(ch) ((GET_PRESTIGE(ch) >= 5) ? ((int)(GET_PRESTIGE(ch) + 5) / 10) : 0)
+#define PRESTIGE_MOVE_BONUS(prestige) (100 * (((prestige) >= 265) + ((prestige) >= 325) + ((prestige) >= 415) + ((prestige) >= 485) + ((prestige) >= 625) + ((prestige) >= 655))) // Prestige Perks 27, 33, 42, 49, 63, 66
+#define PRESTIGE_RANK_DEATH_CHANCE(ch) ((GET_PRESTIGE_PERK(ch) >= 86) ? 20 : ((GET_PRESTIGE_PERK(ch) >= 44) ? 15 : ((GET_PRESTIGE_PERK(ch) >= 17) ? 10 : 0))) // Prestige Perks 17, 44, 86
 #define GET_WHO_FILTER(ch) (ch->ver3.who_filter)
 #define GET_WAIT(ch) (GET_DESCRIPTOR(ch)->wait)
 #define GET_DEFAULT_POSITION(ch) (ch->specials.default_pos)
@@ -532,7 +535,8 @@ do {                   \
 #define CAN_CARRY_N(ch) (\
   IS_IMMORTAL(ch) ? 200 : \
   ((((5 + GET_DEX(ch)) / 2) + (GET_LEVEL(ch) / 2)) < 20) ? 20 : \
-  (GET_PRESTIGE_PERK(ch) >= 14) ? (int)((((5 + GET_DEX(ch)) / 2) + (GET_LEVEL(ch) / 2)) * 1.1) : (((5 + GET_DEX(ch)) / 2) + (GET_LEVEL(ch) / 2))) // Prestige Perk 14
+  (GET_PRESTIGE_PERK(ch) >= 35) ? (int)((((5 + GET_DEX(ch)) / 2) + (GET_LEVEL(ch) / 2)) * 1.15) : \
+  (GET_PRESTIGE_PERK(ch) >= 14) ? (int)((((5 + GET_DEX(ch)) / 2) + (GET_LEVEL(ch) / 2)) * 1.1) : (((5 + GET_DEX(ch)) / 2) + (GET_LEVEL(ch) / 2))) // Prestige Perk 14, 35
 
 #define CAN_CARRY_OBJ(ch, obj) ( \
   IS_IMMORTAL(ch) || \

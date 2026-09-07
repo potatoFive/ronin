@@ -51,6 +51,10 @@ int get_max_stat(CHAR *ch, int stat)
 
     case META_MOVE:
       value = ch->specials.org_move;
+
+      if (GET_PRESTIGE(ch)) {
+        value -= PRESTIGE_MOVE_BONUS(GET_PRESTIGE(ch));
+      }
       break;
   }
 
