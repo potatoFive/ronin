@@ -19,6 +19,7 @@ void do_flee(CHAR *ch, char *argument, int cmd);
 void die(struct char_data *ch);
 void appear(struct char_data *ch);
 void update_pos(CHAR *victim);
+void update_pos_ex(CHAR *victim, bool consume_position);
 void set_fighting(CHAR *ch, struct char_data *vict);
 void stop_fighting(CHAR *ch);
 void make_corpse(struct char_data *ch);

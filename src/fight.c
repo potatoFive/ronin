@@ -92,6 +92,16 @@ void appear(CHAR *ch) {
 }
 
 void update_pos(CHAR *ch) {
+  update_pos_ex(ch, TRUE);
+}
+
+/* Updates a character's position based on their hit points and surroundings.
+   When consume_position is FALSE, weakened positions (stunned and below) are
+   not consumed; they are only restored to fighting or standing when the
+   character takes physical damage. */
+void update_pos_ex(CHAR *ch, bool consume_position) {
+  if (!ch) return;
+
   if (GET_MOUNT(ch) && !SAME_ROOM(GET_MOUNT(ch), ch)) {
     stop_riding(ch, GET_MOUNT(ch));
   }
@@ -110,7 +120,7 @@ void update_pos(CHAR *ch) {
       GET_POS(ch) = POSITION_STUNNED;
     }
   }
-  else if ((GET_POS(ch) <= POSITION_STUNNED) || (GET_POS(ch) == POSITION_FIGHTING)) {
+  else if ((consume_position && (GET_POS(ch) <= POSITION_STUNNED)) || (GET_POS(ch) == POSITION_FIGHTING)) {
     if (GET_OPPONENT(ch) && SAME_ROOM(GET_OPPONENT(ch), ch)) {
       GET_POS(ch) = POSITION_FIGHTING;
     }
@@ -2222,7 +2232,8 @@ int damage(CHAR *ch, CHAR *victim, int dmg, int attack_type, int damage_type) {
   /* It's so anticlimactic. */
   GET_HIT(victim) -= dmg;
 
-  update_pos(victim);
+  /* Weakened positions set by skills (e.g. pummel, bash) are only consumed by physical damage. */
+  update_pos_ex(victim, IS_PHYSICAL_DAMAGE(damage_type));
 
   /* Grant hit EXP. */
   if (victim != ch) {
