@@ -6377,7 +6377,7 @@ int saga_prestige(CHAR *mob, CHAR *ch, int cmd, char *arg) {
     "+1 to in combat mana regen cap.",                                                                // Prestige Perk 48
     "+100 movement points.",                                                                          // Prestige Perk 49
     "Additional 5% chance to break through sphere.",                                                  // Prestige Perk 50
-    "Instant passage to Olympus on the airship located above the Midgaard docks, using the keyword 'olympus'.", // Prestige Perk 51
+    "Instant passage to Olympus on the airship located above the Midgaard docks. Keyword: 'olympus'", // Prestige Perk 51
     "+1 to in combat mana regen cap.",                                                                // Prestige Perk 52
     "Home command now available for 0 coins; acts as if you recited a scroll.",                       // Prestige Perk 53
     "+1 to in combat mana regen cap.",                                                                // Prestige Perk 54
@@ -6387,7 +6387,7 @@ int saga_prestige(CHAR *mob, CHAR *ch, int cmd, char *arg) {
     "+1 to in combat mana regen cap.",                                                                // Prestige Perk 58
     "Movement traps only take 95% of movement points instead of 100%.",                               // Prestige Perk 59
     "+1 to in combat mana regen cap.",                                                                // Prestige Perk 60
-    "Instant passage to Eryndlyn on the airship located above the Midgaard docks, using the keyword 'eryndlyn'.", // Prestige Perk 61
+    "Instant passage to Eryndlyn on the airship located above the Midgaard docks. Keyword 'eryndlyn'", // Prestige Perk 61
     "+1 to in combat mana regen cap.",                                                                // Prestige Perk 62
     "+100 movement points.",                                                                          // Prestige Perk 63
     "+1 to in combat mana regen cap.",                                                                // Prestige Perk 64
