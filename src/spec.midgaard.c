@@ -6341,7 +6341,7 @@ int saga_prestige(CHAR *mob, CHAR *ch, int cmd, char *arg) {
     "10% chance that a 1 point token is worth 2 subclass points.",                                    // Prestige Perk 12
     "10% quest point and subclass point discount on remort cost.",                                    // Prestige Perk 13
     "10% increase in number of items that can be carried.",                                           // Prestige Perk 14
-    "Instant passage to Daimyo on a new airship located above the Midgaard docks.",                   // Prestige Perk 15
+    "Instant passage to Daimyo on a new airship located above the Midgaard docks. Keyword: 'daimyo'", // Prestige Perk 15
     "5% discount on items purchased from shops.",                                                     // Prestige Perk 16
     "10% chance to maintain existing rank upon death.",                                               // Prestige Perk 17
     "10% discount on vault storage costs.",                                                           // Prestige Perk 18
@@ -6619,6 +6619,10 @@ int wesley_zeppelin(CHAR *mob, CHAR *ch, int cmd, char *arg) {
     int required_perk = 0;
 
     if (!strcmp(buf, "ready")) {
+      dest_room = 500;
+      required_perk = 15;
+    }
+	else if (!strcmp(buf, "daimyo")) {
       dest_room = 500;
       required_perk = 15;
     }
