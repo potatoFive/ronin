@@ -37,7 +37,7 @@
 #include "enchant.h"
 #include "aff_ench.h"
 
-int calc_position_damage(int position, int dam);
+int calc_position_damage(int position, int dam, int damage_type);
 int stack_position(CHAR *ch, int target_position);
 void do_move(struct char_data *ch, char *argument, int cmd);
 
@@ -285,7 +285,7 @@ void do_backfist(CHAR *ch, char *arg, int cmd) {
 
   double multi = number(150, 175) / 100;
 
-  damage(ch, victim, calc_position_damage(GET_POS(victim), lround(GET_LEVEL(ch) * multi)), SKILL_BACKFIST, DAM_PHYSICAL);
+  damage(ch, victim, calc_position_damage(GET_POS(victim), lround(GET_LEVEL(ch) * multi), DAM_PHYSICAL), SKILL_BACKFIST, DAM_PHYSICAL);
 
   if ((CHAR_REAL_ROOM(victim) != NOWHERE) && !IS_IMPLEMENTOR(victim)) {
     GET_POS(victim) = set_pos;
@@ -418,7 +418,7 @@ void do_tigerkick(CHAR *ch, char *arg, int cmd) {
   act("$n drives $s foot into your chest with the ferocity of a tiger!", FALSE, ch, 0, victim, TO_VICT);
   act("$n drives $s foot into $N's chest with the ferocity of a tiger!", FALSE, ch, 0, victim, TO_NOTVICT);
 
-  damage(ch, victim, calc_position_damage(GET_POS(victim), lround(GET_LEVEL(ch) * 1.75)), SKILL_TIGERKICK, DAM_PHYSICAL);
+  damage(ch, victim, calc_position_damage(GET_POS(victim), lround(GET_LEVEL(ch) * 1.75), DAM_PHYSICAL), SKILL_TIGERKICK, DAM_PHYSICAL);
 
   GET_MANA(ch) = MIN(GET_MAX_MANA(ch), (GET_MANA(ch) + MIN(MAX((GET_MAX_HIT(victim) / 5000), 2), 10)));
 
@@ -818,7 +818,7 @@ void do_smite(CHAR *ch, char *arg, int cmd) {
         act("$n summons forth $s trusty steed and it tramples you with spiritual energy!", FALSE, ch, 0, victim, TO_VICT);
         act("$n summons forth $s trusty steed and it tramples $N with spiritual energy!", FALSE, ch, 0, victim, TO_NOTVICT);
 
-        damage(ch, victim, calc_position_damage(GET_POS(victim), lround(GET_LEVEL(ch) * 1.5)), SKILL_TRUSTY_STEED, DAM_PHYSICAL);
+        damage(ch, victim, calc_position_damage(GET_POS(victim), lround(GET_LEVEL(ch) * 1.5), DAM_PHYSICAL), SKILL_TRUSTY_STEED, DAM_PHYSICAL);
 
         if (IS_ALIVE(victim) && !IS_IMPLEMENTOR(victim)) {
           GET_POS(victim) = set_pos;
@@ -1161,7 +1161,7 @@ void do_batter(CHAR *ch, char *arg, int cmd) {
       act("$N pounds on you with $s fists.", FALSE, ch, 0, victim, TO_VICT);
       act("$n pounds on $N with $s fists.", FALSE, ch, 0, victim, TO_NOTVICT);
 
-      damage(ch, victim, calc_position_damage(GET_POS(victim), GET_LEVEL(ch) * 2), SKILL_BATTER, DAM_PHYSICAL);
+      damage(ch, victim, calc_position_damage(GET_POS(victim), GET_LEVEL(ch) * 2, DAM_PHYSICAL), SKILL_BATTER, DAM_PHYSICAL);
 
       if (CHAR_REAL_ROOM(victim) != NOWHERE && !IS_IMPLEMENTOR(victim))
       {
@@ -1255,7 +1255,7 @@ void do_headbutt(CHAR *ch, char *arg, int cmd) {
   act("$n slams his forehead into your face!", FALSE, ch, NULL, victim, TO_VICT);
   act("$n slams $s forehead into $N's face!", FALSE, ch, NULL, victim, TO_NOTVICT);
 
-  damage(ch, victim, calc_position_damage(GET_POS(victim), GET_LEVEL(ch) * 4), SKILL_HEADBUTT, DAM_PHYSICAL);
+  damage(ch, victim, calc_position_damage(GET_POS(victim), GET_LEVEL(ch) * 4, DAM_PHYSICAL), SKILL_HEADBUTT, DAM_PHYSICAL);
 
   if (CHAR_REAL_ROOM(victim) != NOWHERE && !IS_IMPLEMENTOR(victim)) {
     GET_POS(victim) = set_pos;
@@ -1875,7 +1875,7 @@ void do_clobber(CHAR *ch, char *arg, int cmd) {
   act("You're clobbered by $n's windmilling fists!", FALSE, ch, 0, victim, TO_VICT);
   act("$n clobbers $N with $s windmilling fists!", FALSE, ch, 0, victim, TO_NOTVICT);
 
-  damage(ch, victim, calc_position_damage(GET_POS(victim), number(GET_LEVEL(ch), GET_LEVEL(ch) * 4)), SKILL_CLOBBER, DAM_PHYSICAL);
+  damage(ch, victim, calc_position_damage(GET_POS(victim), number(GET_LEVEL(ch), GET_LEVEL(ch) * 4), DAM_PHYSICAL), SKILL_CLOBBER, DAM_PHYSICAL);
 
   if ((CHAR_REAL_ROOM(victim) != NOWHERE) && !IS_IMPLEMENTOR(victim)) {
     GET_POS(victim) = set_pos;

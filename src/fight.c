@@ -92,6 +92,11 @@ void appear(CHAR *ch) {
 }
 
 void update_pos(CHAR *ch) {
+  update_char_pos(ch, TRUE);
+}
+
+
+void update_char_pos(CHAR *ch, int wake_up) {
   if (GET_MOUNT(ch) && !SAME_ROOM(GET_MOUNT(ch), ch)) {
     stop_riding(ch, GET_MOUNT(ch));
   }
@@ -110,7 +115,7 @@ void update_pos(CHAR *ch) {
       GET_POS(ch) = POSITION_STUNNED;
     }
   }
-  else if ((GET_POS(ch) <= POSITION_STUNNED) || (GET_POS(ch) == POSITION_FIGHTING)) {
+  else if ((wake_up && (GET_POS(ch) <= POSITION_STUNNED)) || (GET_POS(ch) == POSITION_FIGHTING)) {
     if (GET_OPPONENT(ch) && SAME_ROOM(GET_OPPONENT(ch), ch)) {
       GET_POS(ch) = POSITION_FIGHTING;
     }
@@ -2222,7 +2227,7 @@ int damage(CHAR *ch, CHAR *victim, int dmg, int attack_type, int damage_type) {
   /* It's so anticlimactic. */
   GET_HIT(victim) -= dmg;
 
-  update_pos(victim);
+  update_char_pos(victim, IS_PHYSICAL_DAMAGE(damage_type));
 
   /* Grant hit EXP. */
   if (victim != ch) {
@@ -2774,7 +2779,9 @@ int calc_ac(CHAR *ch) {
   return ac;
 }
 
-int calc_position_damage(int position, int damage) {
+int calc_position_damage(int position, int damage, int damage_type) {
+  if (!IS_PHYSICAL_DAMAGE(damage_type)) return damage;
+
   double multi = 1.0;
 
   switch (position) {
@@ -2877,7 +2884,7 @@ int calc_hit_damage(CHAR *ch, CHAR *victim, OBJ *weapon, int bonus, int mode) {
   }
 
   /* Minimum damage is 1, unless modified below. */
-  dam = MAX(1, (victim) ? calc_position_damage(GET_POS(victim), dam) : dam);
+  dam = MAX(1, (victim) ? calc_position_damage(GET_POS(victim), dam, DAM_PHYSICAL) : dam);
 
   return dam;
 }

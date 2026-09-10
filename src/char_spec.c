@@ -154,7 +154,7 @@ void dirty_tricks_spec(CHAR *ch, CHAR *victim, int cmd, const char *arg) {
 
             int set_pos = stack_position(victim, POSITION_SITTING);
 
-            damage(ch, victim, calc_position_damage(GET_POS(victim), 10), SKILL_DIRTY_TRICKS, DAM_PHYSICAL);
+            damage(ch, victim, calc_position_damage(GET_POS(victim), 10, DAM_PHYSICAL), SKILL_DIRTY_TRICKS, DAM_PHYSICAL);
 
             if (CHAR_REAL_ROOM(victim) != NOWHERE && !IS_IMPLEMENTOR(victim)) {
               GET_POS(victim) = set_pos;
@@ -548,12 +548,12 @@ void mimicry_spec(CHAR *ch, CHAR *victim, int cmd, const char *arg) {
 		
 	  set_pos = stack_position(victim, POSITION_STUNNED);
 
-      damage(ch, victim, calc_position_damage(GET_POS(victim), 10), SKILL_PUMMEL, DAM_PHYSICAL);
+      damage(ch, victim, calc_position_damage(GET_POS(victim), 10, DAM_PHYSICAL), SKILL_PUMMEL, DAM_PHYSICAL);
 	  
 	  if (CHAR_REAL_ROOM(victim) != NOWHERE)
           GET_POS(victim) = MIN(GET_POS(victim), set_pos);
 	  
-	  damage(ch, victim, calc_position_damage(GET_POS(victim), GET_LEVEL(ch) * 2), SKILL_BATTER, DAM_PHYSICAL);
+	  damage(ch, victim, calc_position_damage(GET_POS(victim), GET_LEVEL(ch) * 2, DAM_PHYSICAL), SKILL_BATTER, DAM_PHYSICAL);
 	  perform_hit(ch, victim, TYPE_UNDEFINED, 0);
 	
 	  break;
@@ -701,7 +701,7 @@ void mimicry_spec(CHAR *ch, CHAR *victim, int cmd, const char *arg) {
 
       set_pos = stack_position(victim, POSITION_STUNNED);
 
-      damage(ch, victim, calc_position_damage(GET_POS(victim), 10), SKILL_PUMMEL, DAM_PHYSICAL);
+      damage(ch, victim, calc_position_damage(GET_POS(victim), 10, DAM_PHYSICAL), SKILL_PUMMEL, DAM_PHYSICAL);
 
       if (CHAR_REAL_ROOM(victim) != NOWHERE)
         GET_POS(victim) = MIN(GET_POS(ch), set_pos);
@@ -763,7 +763,7 @@ void mimicry_spec(CHAR *ch, CHAR *victim, int cmd, const char *arg) {
 
       set_pos = stack_position(victim, POSITION_STUNNED);
 
-      damage(ch, victim, calc_position_damage(GET_POS(victim), 10), SKILL_PUMMEL, DAM_PHYSICAL);
+      damage(ch, victim, calc_position_damage(GET_POS(victim), 10, DAM_PHYSICAL), SKILL_PUMMEL, DAM_PHYSICAL);
 
       if (CHAR_REAL_ROOM(victim) != NOWHERE)
         GET_POS(victim) = MIN(GET_POS(ch), set_pos);
@@ -801,7 +801,7 @@ void mimicry_spec(CHAR *ch, CHAR *victim, int cmd, const char *arg) {
 
       set_pos = stack_position(victim, POSITION_STUNNED);
 
-      damage(ch, victim, calc_position_damage(GET_POS(victim), 10), SKILL_PUMMEL, DAM_PHYSICAL);
+      damage(ch, victim, calc_position_damage(GET_POS(victim), 10, DAM_PHYSICAL), SKILL_PUMMEL, DAM_PHYSICAL);
 
       /* spoofed hidden-blade */
       if (CHAR_REAL_ROOM(victim) != NOWHERE) {
@@ -809,7 +809,7 @@ void mimicry_spec(CHAR *ch, CHAR *victim, int cmd, const char *arg) {
         act("$n drives a hidden blade deep into your gut!", FALSE, ch, NULL, victim, TO_VICT);
         act("You drive a hidden blade deep into $N's gut!", FALSE, ch, NULL, victim, TO_CHAR);
 
-        damage(ch, victim, calc_position_damage(GET_POS(victim), GET_LEVEL(ch) * 2), SKILL_HIDDEN_BLADE, DAM_PHYSICAL);
+        damage(ch, victim, calc_position_damage(GET_POS(victim), GET_LEVEL(ch) * 2, DAM_PHYSICAL), SKILL_HIDDEN_BLADE, DAM_PHYSICAL);
       }
 
       if (CHAR_REAL_ROOM(victim) != NOWHERE)

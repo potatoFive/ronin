@@ -29,7 +29,7 @@
 #include "aff_ench.h"
 
 void raw_kill(CHAR *ch);
-int calc_position_damage(int position, int dam);
+int calc_position_damage(int position, int dam, int damage_type);
 int stack_position(CHAR *ch, int target_position);
 
 
@@ -406,7 +406,7 @@ void do_spin_kick(CHAR *ch, char *argument, int cmd) {
       damage(ch, temp_victim, 0, SKILL_SPIN_KICK, DAM_NO_BLOCK);
     }
     else {
-      damage(ch, temp_victim, calc_position_damage(GET_POS(temp_victim), (GET_LEVEL(ch) * 2)), SKILL_SPIN_KICK, DAM_PHYSICAL);
+      damage(ch, temp_victim, calc_position_damage(GET_POS(temp_victim), (GET_LEVEL(ch) * 2), DAM_PHYSICAL), SKILL_SPIN_KICK, DAM_PHYSICAL);
     }
   }
 
@@ -1285,7 +1285,7 @@ void do_pummel(CHAR *ch, char *arg, int cmd) {
   act("$n pummels you, and you are stunned now!", FALSE, ch, 0, victim, TO_VICT);
   act("$n pummels $N, and $N is stunned now!", FALSE, ch, 0, victim, TO_NOTVICT);
 
-  damage(ch, victim, calc_position_damage(GET_POS(victim), 10), SKILL_PUMMEL, DAM_PHYSICAL);
+  damage(ch, victim, calc_position_damage(GET_POS(victim), 10, DAM_PHYSICAL), SKILL_PUMMEL, DAM_PHYSICAL);
 
   /* Hidden Blade */
   if (SAME_ROOM(ch, victim) &&
@@ -1295,7 +1295,7 @@ void do_pummel(CHAR *ch, char *arg, int cmd) {
     act("$n drives a hidden blade deep into your gut!", FALSE, ch, 0, victim, TO_VICT);
     act("$n drives a hidden blade deep into $N's gut!", FALSE, ch, 0, victim, TO_NOTVICT);
 
-    damage(ch, victim, calc_position_damage(GET_POS(victim), GET_LEVEL(ch) * 2), SKILL_HIDDEN_BLADE, DAM_PHYSICAL);
+    damage(ch, victim, calc_position_damage(GET_POS(victim), GET_LEVEL(ch) * 2, DAM_PHYSICAL), SKILL_HIDDEN_BLADE, DAM_PHYSICAL);
   }
 
   if ((CHAR_REAL_ROOM(victim) != NOWHERE) && !IS_IMPLEMENTOR(victim)) {
@@ -1315,7 +1315,7 @@ void do_pummel(CHAR *ch, char *arg, int cmd) {
       act("$n summons forth $s trusty steed and it tramples you with spiritual energy!", 0, ch, 0, victim, TO_VICT);
       act("$n summons forth $s trusty steed and it tramples $N with spiritual energy!", 0, ch, 0, victim, TO_NOTVICT);
 
-      damage(ch, victim, calc_position_damage(GET_POS(victim), lround(GET_LEVEL(ch) * 1.5)), SKILL_TRUSTY_STEED, DAM_PHYSICAL);
+      damage(ch, victim, calc_position_damage(GET_POS(victim), lround(GET_LEVEL(ch) * 1.5), DAM_PHYSICAL), SKILL_TRUSTY_STEED, DAM_PHYSICAL);
 
       if ((CHAR_REAL_ROOM(victim) != NOWHERE) && !IS_IMPLEMENTOR(victim)) {
         GET_POS(victim) = set_pos;
@@ -1420,7 +1420,7 @@ void do_bash(CHAR *ch, char *arg, int cmd) {
     dam = lround(dam * 1.5);
   }
 
-  damage(ch, victim, calc_position_damage(GET_POS(victim), dam), SKILL_BASH, DAM_PHYSICAL);
+  damage(ch, victim, calc_position_damage(GET_POS(victim), dam, DAM_PHYSICAL), SKILL_BASH, DAM_PHYSICAL);
 
   if ((CHAR_REAL_ROOM(victim) != NOWHERE) && !IS_IMPLEMENTOR(victim)) {
     GET_POS(victim) = set_pos;
@@ -1495,7 +1495,7 @@ void do_punch(CHAR *ch, char *arg, int cmd) {
   if (IS_MORTAL(ch) && check_subclass(ch, SC_WARLORD, 3) && chance(33)) {
     set_pos = stack_position(victim, POSITION_STUNNED);
 
-    damage(ch, victim, calc_position_damage(GET_POS(victim), GET_LEVEL(ch) * 4), SKILL_PUNCH, DAM_PHYSICAL);
+    damage(ch, victim, calc_position_damage(GET_POS(victim), GET_LEVEL(ch) * 4, DAM_PHYSICAL), SKILL_PUNCH, DAM_PHYSICAL);
 
     act("Your iron fist hits $N with devastating effect!", FALSE, ch, 0, victim, TO_CHAR);
     act("$n's iron fist hits you with devastating effect!", FALSE, ch, 0, victim, TO_VICT);
@@ -1503,7 +1503,7 @@ void do_punch(CHAR *ch, char *arg, int cmd) {
   }
   /* Punch */
   else {
-    damage(ch, victim, calc_position_damage(GET_POS(victim), GET_LEVEL(ch) * 2), SKILL_PUNCH, DAM_PHYSICAL);
+    damage(ch, victim, calc_position_damage(GET_POS(victim), GET_LEVEL(ch) * 2, DAM_PHYSICAL), SKILL_PUNCH, DAM_PHYSICAL);
   }
 
   if ((CHAR_REAL_ROOM(victim) != NOWHERE) && !IS_IMPLEMENTOR(victim)) {
@@ -1735,7 +1735,7 @@ void do_kick(CHAR *ch, char *arg, int cmd) {
 
   auto_learn_skill(ch, SKILL_KICK);
 
-  damage(ch, victim, calc_position_damage(GET_POS(victim), (GET_LEVEL(ch) * 2)), SKILL_KICK, DAM_PHYSICAL);
+  damage(ch, victim, calc_position_damage(GET_POS(victim), (GET_LEVEL(ch) * 2), DAM_PHYSICAL), SKILL_KICK, DAM_PHYSICAL);
 
   if ((CHAR_REAL_ROOM(victim) != NOWHERE) && !IS_IMPLEMENTOR(victim)) {
     skill_wait_victim(victim, SKILL_PUMMEL, CHAOSMODE ? number(2, 3) : 3);
@@ -2170,7 +2170,7 @@ void do_coin_toss(CHAR *ch, char *argument, int cmd) {
 
       int dmg = MAX(lround(((GET_LEVEL(ch) * 2) * factor)), 10);
 
-      damage(ch, temp_victim, calc_position_damage(GET_POS(temp_victim), dmg), SKILL_COIN_TOSS, DAM_PHYSICAL);
+      damage(ch, temp_victim, calc_position_damage(GET_POS(temp_victim), dmg, DAM_PHYSICAL), SKILL_COIN_TOSS, DAM_PHYSICAL);
     }
   }
   else {

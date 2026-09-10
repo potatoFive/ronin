@@ -543,7 +543,7 @@ int shomed_spec(CHAR *mob, CHAR *ch, int cmd, char *arg) {
       act("$n pounds on $N with $s fists.", FALSE, mob, 0, vict, TO_NOTVICT);
       act("$N pounds on you with $s fists.", FALSE, mob, 0, vict, TO_VICT);
 
-      damage(mob, vict, calc_position_damage(GET_POS(vict), GET_LEVEL(mob) * 2), SKILL_BATTER, DAM_PHYSICAL);
+      damage(mob, vict, calc_position_damage(GET_POS(vict), GET_LEVEL(mob) * 2, DAM_PHYSICAL), SKILL_BATTER, DAM_PHYSICAL);
 
       if ((CHAR_REAL_ROOM(vict) != NOWHERE) && (GET_POS(vict) > POSITION_SITTING))
       {
@@ -1897,7 +1897,7 @@ int tactical_spec(OBJ *obj, CHAR *ch, int cmd, char *arg) {
 
         act("You have been kicked by $n.", FALSE, ch, 0, vict, TO_VICT);
 
-        damage(ch, vict, calc_position_damage(GET_POS(vict), (GET_LEVEL(ch) * 4)), TYPE_UNDEFINED, DAM_PHYSICAL);
+        damage(ch, vict, calc_position_damage(GET_POS(vict), (GET_LEVEL(ch) * 4), DAM_PHYSICAL), TYPE_UNDEFINED, DAM_PHYSICAL);
       }
 
       WAIT_STATE(ch, PULSE_VIOLENCE * 2);

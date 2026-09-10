@@ -19,6 +19,7 @@ void do_flee(CHAR *ch, char *argument, int cmd);
 void die(struct char_data *ch);
 void appear(struct char_data *ch);
 void update_pos(CHAR *victim);
+void update_char_pos(CHAR *ch, int wake_up);
 void set_fighting(CHAR *ch, struct char_data *vict);
 void stop_fighting(CHAR *ch);
 void make_corpse(struct char_data *ch);
@@ -44,7 +45,7 @@ int calc_hitroll(CHAR *ch);
 int calc_damroll(CHAR *ch);
 int calc_thaco(CHAR *ch);
 int calc_ac(CHAR *ch);
-int calc_position_damage(int position, int dam);
+int calc_position_damage(int position, int dam, int damage_type);
 int calc_hit_damage(CHAR *ch, CHAR *victim, OBJ *weapon, int bonus, int mode);
 
 int stack_position(CHAR *ch, int target_position);
