@@ -3893,7 +3893,7 @@ void do_whois(CHAR *ch, char *argument, int cmd) {
     class = (int)char_info_5.class;
     subclass = char_info_5.ver3.subclass;
     subclass_level = char_info_5.ver3.subclass_level;
-    prestige = char_info_5.ver3.prestige | (((unsigned)char_info_5.ver3.extra_byte[0]) << 8);
+    prestige = char_info_5.ver3.prestige | (((unsigned)char_info_5.ver3.prestige_high) << 8);
     level = char_info_5.level;
     secs = time(0) - char_info_5.last_update;
     sprintf(host, "%s", char_info_5.new.host);
